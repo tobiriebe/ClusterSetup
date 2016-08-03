@@ -1,0 +1,46 @@
+#!/bin/bash
+
+#Some modules to always load when logging in
+echo "Adding R, nano and git modules to .bashrc"
+
+declare -a mods=("nano" "R/3.2mkl" "git")
+
+for i in "${mods[@]}"
+do
+	if grep -q "module load $i" ~/.bashrc; then
+	    echo "module $i is already in bashrc"
+	else
+	    echo "" >> ~/.bashrc
+	    echo "module load $i" >> ~/.bashrc
+	    echo "added module $i to .bashrc"
+	fi
+done
+
+echo ""
+
+if grep -q "export CLUSTERS=mpp2" ~/.bashrc; then
+	    echo "mpp2 default cluster is already in bashrc"
+	else
+	    echo "" >> ~/.bashrc
+	    echo "export CLUSTERS=mpp2" >> ~/.bashrc
+	    echo "added mpp2 as default cluster"
+	fi
+
+
+echo ""
+
+#Set symbolic links to the batchtools and Batchjobs config files
+ln -s /home/hpc/ua341/ri89coc2/lrz_configs/config_files/batchtools/.batchtools.conf.R ~/.batchtools.conf.R
+ln -s /home/hpc/ua341/ri89coc2/lrz_configs/config_files/BatchJobs/.BatchJobs.R ~/.BatchJobs.R
+
+
+
+echo ""
+#Add lrz_config/bin to path
+if  grep -q "/di25koz/lrz_configs/bin" ~/.bashrc; then
+		echo "lrz_config/bin already in PATH"
+	else 
+		echo "" >> ~/.bashrc
+		echo 'export PATH=$PATH:/home/hpc/ua341/ri89coc2/lrz_configs/bin' >> ~/.bashrc
+		echo "added /home/hpc/ua341/ri89coc2/lrz_configs/bin to PATH"
+fi
